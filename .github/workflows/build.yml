@@ -1,34 +1,19 @@
 name: Gemini EXE Builder
-
 on: [push]
-
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
-      # ১. কোড চেকআউট (v4 ই থাক, কোনো সমস্যা নেই)
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # ২. পাইথন সেটআপ (v5 ব্যবহার করলে ওয়ার্নিং কম আসবে)
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      # ৩. ডিপেন্ডেন্সি ইনস্টল
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller pywebview[gui]
-
-      # ৪. মূল বিল্ড (এখানে ফাইল নাম main.py কি না চেক করুন)
-      - name: Build EXE with PyInstaller
-        run: |
-          pyinstaller --onefile --noconsole --name "Gemini_Rasel" main.py
-
-      # ৫. আউটপুট ডাউনলোড করার ব্যবস্থা
+      - name: Build EXE
+        run: pyinstaller --onefile --noconsole --name "Gemini_Rasel" main.py
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
