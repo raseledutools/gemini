@@ -1,2 +1,2 @@
+pywebview[gui]
 pyinstaller
-pywebview==3.7.2
