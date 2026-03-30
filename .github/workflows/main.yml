@@ -6,16 +6,16 @@ jobs:
   build:
     runs-on: windows-latest
 
-    # Node.js 24 ব্যবহারের জন্য এনভায়রনমেন্ট ভ্যারিয়েবল সেট করা হয়েছে
+    # Node.js 24 এনভায়রনমেন্ট নিশ্চিত করার জন্য
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.7 # লেটেস্ট মাইনর ভার্সন ব্যবহার করা নিরাপদ
+        uses: actions/checkout@v4.2.2 # v4-এর সর্বশেষ প্যাচ যা Node 24 সামঞ্জস্যপূর্ণ
 
       - name: Set up Python
-        uses: actions/setup-python@v5 # v4 থেকে v5 এ আপডেট করা হয়েছে যা Node 20+ সাপোর্ট করে
+        uses: actions/setup-python@v5.3.0 # v5-এর সর্বশেষ ভার্সন ব্যবহার করুন
         with:
           python-version: '3.10'
 
@@ -28,7 +28,7 @@ jobs:
           pyinstaller --onefile --noconsole --name "Gemini_Rasel" main.py
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.4.0 # লেটেস্ট আর্টফ্যাক্ট আপলোডার
         with:
           name: Gemini-Software
           path: dist/*.exe
