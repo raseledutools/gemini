@@ -1,35 +1,33 @@
-name: Workspace EXE Builder
+name: SAE Book EXE Builder
 
-on: [push]
+on: [push] # তুমি কোড পুশ করলেই এটি রান হবে
 
 jobs:
   build:
     runs-on: windows-latest
 
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5.3.0
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller pywebview[gui] pythonnet
+          pip install -r requirements.txt
 
       - name: Build EXE with PyInstaller
-        # link.html ফাইলটিকে EXE এর ভেতরে যুক্ত করা হচ্ছে
         run: |
-          pyinstaller --onefile --noconsole --add-data "link.html;." --name "Workspace_Hub" main.py
+          # --onefile মানে একটি মাত্র ফাইল হবে
+          # --noconsole মানে সফটওয়্যার ওপেন হলে কালো CMD বক্স আসবে না
+          pyinstaller --onefile --noconsole --name "SAE_Book_App" main.py
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4.4.0
+      - name: Upload Finished EXE
+        uses: actions/upload-artifact@v4
         with:
-          name: Workspace-App
+          name: SAE-Book-Software
           path: dist/*.exe
