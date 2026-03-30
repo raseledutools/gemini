@@ -6,12 +6,16 @@ jobs:
   build:
     runs-on: windows-latest
 
+    # Node.js 24 ব্যবহারের জন্য এনভায়রনমেন্ট ভ্যারিয়েবল সেট করা হয়েছে
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7 # লেটেস্ট মাইনর ভার্সন ব্যবহার করা নিরাপদ
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # v4 থেকে v5 এ আপডেট করা হয়েছে যা Node 20+ সাপোর্ট করে
         with:
           python-version: '3.10'
 
