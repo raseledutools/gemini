@@ -1,4 +1,4 @@
-name: Gemini EXE Builder
+name: Workspace EXE Builder
 
 on: [push]
 
@@ -6,31 +6,30 @@ jobs:
   build:
     runs-on: windows-latest
 
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
-      # ১. কোড চেকআউট করা
       - name: Checkout code
         uses: actions/checkout@v4.2.2
 
-      # ২. পাইথন সেটআপ করা
       - name: Set up Python
         uses: actions/setup-python@v5.3.0
         with:
           python-version: '3.10'
 
-      # ৩. প্রয়োজনীয় লাইব্রেরি ইনস্টল করা (pythonnet সহ)
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller pywebview[gui] pythonnet
 
-      # ৪. পাই-ইনস্টলার দিয়ে EXE তৈরি করা
       - name: Build EXE with PyInstaller
+        # link.html ফাইলটিকে EXE এর ভেতরে যুক্ত করা হচ্ছে
         run: |
-          pyinstaller --onefile --noconsole --name "Gemini_Rasel" main.py
+          pyinstaller --onefile --noconsole --add-data "link.html;." --name "Workspace_Hub" main.py
 
-      # ৫. তৈরি করা EXE ফাইলটি আপলোড করা
       - name: Upload Artifact
         uses: actions/upload-artifact@v4.4.0
         with:
-          name: Gemini-Software
-          path: dist/Gemini_Rasel.exe
+          name: Workspace-App
+          path: dist/*.exe
