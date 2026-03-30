@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My Workspace Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], },
+                    colors: {
+                        bgbase: '#17181c', cardbg: '#212328', cardhover: '#2a2d35',
+                        bordercol: '#31353f', textmain: '#e2e4e9', textmuted: '#949ba8', accent: '#4ade80', 
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #17181c; color: #e2e4e9; -webkit-tap-highlight-color: transparent; }
+        .tool-card { background-color: #212328; border: 1px solid #31353f; transition: all 0.25s ease; cursor: pointer; }
+        .tool-card:hover, .tool-card:active { background-color: #2a2d35; border-color: #4b5162; transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .category-header { position: relative; }
+        .category-header::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 40px; height: 3px; background: #4ade80; border-radius: 2px; transition: width 0.3s ease; }
+        .category-wrapper:hover .category-header::after { width: 80px; }
+        
+        /* PDF Reader Styles */
+        #pdf-modal { background-color: #121212; }
+        #pdf-scroll-area { overflow-y: auto; overflow-x: auto; scroll-behavior: smooth; background-color: #1e1e1e; }
+        .pdf-page-wrapper { margin: 0 auto 20px auto; box-shadow: 0 4px 15px rgba(0,0,0,0.5); background-color: white; position: relative; transition: width 0.3s ease, height 0.3s ease; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #17181c; }
+        ::-webkit-scrollbar-thumb { background: #31353f; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5162; }
+    </style>
+</head>
+<body class="p-4 md:p-8 font-sans antialiased pb-24">
+
+    <div class="bg-blue-900/30 border border-blue-500/30 text-blue-200 px-4 py-2 rounded-lg text-center text-sm mb-6 max-w-7xl mx-auto shadow-sm">
+        <i class="fa-solid fa-circle-info mr-2"></i> Use the <b>"Navigation"</b> menu at the top left of the window to go Back or return Home!
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-14 mt-2">
+            <h1 class="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
+                My Workspace <span class="text-accent">Hub</span>
+            </h1>
+            <p class="text-textmuted text-base md:text-lg px-4">All your essential daily tools gathered in one soothing place.</p>
+        </header>
+
+        <div class="mb-12 category-wrapper">
+            <h2 class="text-xl md:text-2xl font-semibold mb-6 category-header text-gray-200">
+                <i class="fa-solid fa-microchip mr-2 text-textmuted"></i> AI Assistants
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
+                <div onclick="pywebview.api.load_url('https://chatgpt.com/')" class="tool-card rounded-2xl p-5 md:p-6 flex flex-col items-center justify-center gap-3 text-center">
+                    <i class="fa-solid fa-bolt text-4xl text-[#10a37f]"></i>
+                    <span class="font-medium text-sm md:text-base">ChatGPT</span>
+                </div>
+                
+                <div onclick="pywebview.api.load_url('https://gemini.google.com/')" class="tool-card rounded-2xl p-5 md:p-6 flex flex-col items-center justify-center gap-3 text-center">
+                    <i class="fa-solid fa-sparkles text-4xl text-[#8ab4f8]"></i>
+                    <span class="font-medium text-sm md:text-base">Gemini</span>
+                </div>
+                
+                <div onclick="pywebview.api.load_url('https://chat.deepseek.com/')" class="tool-card rounded-2xl p-5 md:p-6 flex flex-col items-center justify-center gap-3 text-center">
+                    <i class="fa-solid fa-brain text-4xl text-blue-400"></i>
+                    <span class="font-medium text-sm md:text-base">DeepSeek</span>
+                </div>
+
+                <div onclick="pywebview.api.load_url('https://www.perplexity.ai/')" class="tool-card rounded-2xl p-5 md:p-6 flex flex-col items-center justify-center gap-3 text-center">
+                    <i class="fa-solid fa-search text-4xl text-teal-400"></i>
+                    <span class="font-medium text-sm md:text-base">Perplexity</span>
+                </div>
+
+                <div onclick="pywebview.api.load_url('https://grok.com/')" class="tool-card rounded-2xl p-5 md:p-6 flex flex-col items-center justify-center gap-3 text-center">
+                    <i class="fa-solid fa-x text-4xl text-white"></i>
+                    <span class="font-medium text-sm md:text-base">Grok</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-12 category-wrapper">
+            <h2 class="text-xl md:text-2xl font-semibold mb-6 category-header text-gray-200">
+                <i class="fa-solid fa-layer-group mr-2 text-textmuted"></i> Apps & Utilities
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                <button onclick="openPdfModal()" class="tool-card rounded-2xl p-5 flex items-center gap-4 text-left w-full cursor-pointer focus:outline-none">
+                    <div class="bg-red-500/10 p-3.5 rounded-xl text-red-500">
+                        <i class="fa-solid fa-file-pdf text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-base md:text-lg text-white">Acrobat Reader</h3>
+                        <p class="text-xs md:text-sm text-textmuted mt-1">Pro offline PDF viewer</p>
+                    </div>
+                </button>
+                <div onclick="pywebview.api.load_url('https://raseledutools.github.io/')" class="tool-card rounded-2xl p-5 flex items-center gap-4">
+                    <div class="bg-purple-500/10 p-3.5 rounded-xl text-purple-400"><i class="fa-solid fa-graduation-cap text-2xl"></i></div>
+                    <div><h3 class="font-semibold text-base md:text-lg text-white">Rasel Edu Tools</h3><p class="text-xs md:text-sm text-textmuted mt-1">Education Portal</p></div>
+                </div>
+                <div onclick="pywebview.api.load_url('https://raseledutools.github.io/rasel-mia-controller/')" class="tool-card rounded-2xl p-5 flex items-center gap-4">
+                    <div class="bg-pink-500/10 p-3.5 rounded-xl text-pink-400"><i class="fa-solid fa-qrcode text-2xl"></i></div>
+                    <div><h3 class="font-semibold text-base md:text-lg text-white">RasScanner</h3><p class="text-xs md:text-sm text-textmuted mt-1">Controller System</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-12 category-wrapper">
+            <h2 class="text-xl md:text-2xl font-semibold mb-6 category-header text-gray-200">
+                <i class="fa-brands fa-google mr-2 text-textmuted"></i> Google Workspace
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
+                <div onclick="pywebview.api.load_url('https://www.google.com/')" class="tool-card rounded-2xl p-4 md:p-5 flex flex-col items-center justify-center gap-3 text-center"><i class="fa-brands fa-google text-3xl text-gray-300"></i><span class="font-medium text-xs md:text-sm">Search</span></div>
+                <div onclick="pywebview.api.load_url('https://mail.google.com/')" class="tool-card rounded-2xl p-4 md:p-5 flex flex-col items-center justify-center gap-3 text-center"><i class="fa-solid fa-envelope text-3xl text-red-400"></i><span class="font-medium text-xs md:text-sm">Gmail</span></div>
+                <div onclick="pywebview.api.load_url('https://drive.google.com/')" class="tool-card rounded-2xl p-4 md:p-5 flex flex-col items-center justify-center gap-3 text-center"><i class="fa-brands fa-google-drive text-3xl text-yellow-500"></i><span class="font-medium text-xs md:text-sm">Drive</span></div>
+                <div onclick="pywebview.api.load_url('https://docs.google.com/')" class="tool-card rounded-2xl p-4 md:p-5 flex flex-col items-center justify-center gap-3 text-center"><i class="fa-solid fa-file-word text-3xl text-blue-400"></i><span class="font-medium text-xs md:text-sm">Docs</span></div>
+                <div onclick="pywebview.api.load_url('https://docs.google.com/spreadsheets/')" class="tool-card rounded-2xl p-4 md:p-5 flex flex-col items-center justify-center gap-3 text-center"><i class="fa-solid fa-file-excel text-3xl text-green-500"></i><span class="font-medium text-xs md:text-sm">Sheets</span></div>
+                <div onclick="pywebview.api.load_url('https://docs.google.com/presentation/')" class="tool-card rounded-2xl p-4 md:p-5 flex flex-col items-center justify-center gap-3 text-center"><i class="fa-solid fa-file-powerpoint text-3xl text-yellow-500"></i><span class="font-medium text-xs md:text-sm">Slides</span></div>
+            </div>
+        </div>
+
+        <footer class="text-center text-textmuted mt-12 pt-8 border-t border-bordercol">
+            <p class="text-sm">Optimized for WebView & Offline Access.</p>
+        </footer>
+    </div>
+
+    <div id="pdf-modal" class="fixed inset-0 z-50 hidden flex-col w-full h-full text-white bg-[#121212]">
+        <div class="h-14 bg-[#282828] border-b border-[#3e3e3e] flex items-center justify-between px-3 md:px-6 shadow-md shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="bg-red-600 text-white p-1.5 rounded text-sm hidden sm:block"><i class="fa-solid fa-file-pdf"></i></div>
+                <label for="pdf-upload" class="bg-[#3e3e3e] hover:bg-[#4a4a4a] text-sm px-3 py-1.5 rounded cursor-pointer transition-colors border border-[#555] flex items-center gap-2">
+                    <i class="fa-solid fa-folder-open"></i> <span class="hidden sm:inline">Open File</span>
+                </label>
+                <input type="file" id="pdf-upload" accept="application/pdf" class="hidden">
+                <span id="pdf-title" class="text-sm text-gray-300 ml-2 hidden lg:block max-w-[200px] truncate">No file selected</span>
+            </div>
+            
+            <div id="pdf-page-indicator" class="hidden flex items-center bg-[#1e1e1e] border border-[#3e3e3e] rounded px-3 py-1 text-sm font-mono mx-2">
+                <span id="current-page">0</span><span class="mx-1 text-gray-500">/</span><span id="total-pages">0</span>
+            </div>
+            
+            <div class="flex items-center gap-2 md:gap-3">
+                <div id="zoom-controls" class="hidden items-center bg-[#1e1e1e] border border-[#3e3e3e] rounded overflow-hidden">
+                    <button onclick="zoomOut()" class="w-8 h-8 hover:bg-[#3e3e3e] flex items-center justify-center text-gray-300 transition-colors"><i class="fa-solid fa-minus"></i></button>
+                    <span id="zoom-level-text" class="text-xs w-10 text-center text-gray-400 font-mono">150%</span>
+                    <button onclick="zoomIn()" class="w-8 h-8 hover:bg-[#3e3e3e] flex items-center justify-center text-gray-300 transition-colors"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div class="w-px h-5 bg-[#444] hidden sm:block"></div>
+                <button onclick="toggleFullScreen()" class="w-9 h-9 flex items-center justify-center hover:bg-[#3e3e3e] rounded text-gray-300 transition-colors"><i class="fa-solid fa-expand"></i></button>
+                <button onclick="closePdfModal()" class="w-9 h-9 flex items-center justify-center bg-red-500 hover:bg-red-600 text-white rounded transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <div id="pdf-scroll-area" class="flex-1 w-full relative pt-6 pb-20 px-2 md:px-8 flex flex-col items-center">
+            <div id="pdf-empty-state" class="m-auto text-center text-gray-400 flex flex-col items-center gap-4 mt-20">
+                <i class="fa-brands fa-adobe text-6xl text-red-500 opacity-80 mb-2"></i>
+                <h3 class="text-xl font-semibold text-gray-200">Acrobat Web Reader</h3>
+                <p class="text-sm">Click "Open File" from the top menu to view documents.</p>
+            </div>
+            <div id="pdf-render-container" class="w-full flex flex-col items-center"></div>
+            <div id="pdf-loader" class="hidden fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 shadow-lg z-50">
+                <i class="fa-solid fa-circle-notch fa-spin text-accent"></i> Rendering...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PDF Reader Logic - Unchanged
+        if ('caches' in window) {
+            caches.open('workspace-offline-cache-v1').then(cache => {
+                cache.addAll(['https://cdn.tailwindcss.com', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js']);
+            });
+        }
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        let pdfDoc = null; let observer = null; let currentScale = 1.5;
+        const modal = document.getElementById('pdf-modal'); const scrollArea = document.getElementById('pdf-scroll-area'); const renderContainer = document.getElementById('pdf-render-container'); const fileInput = document.getElementById('pdf-upload');
+
+        function openPdfModal() { modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+        function closePdfModal() { if (document.fullscreenElement) document.exitFullscreen(); modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = 'auto'; }
+        function toggleFullScreen() { if (!document.fullscreenElement) modal.requestFullscreen(); else document.exitFullscreen(); }
+        function updateZoomText() { document.getElementById('zoom-level-text').textContent = Math.round(currentScale * 100) + '%'; }
+        function zoomIn() { if (currentScale < 3.0) { currentScale += 0.25; updateZoomText(); renderAllPages(); } }
+        function zoomOut() { if (currentScale > 0.5) { currentScale -= 0.25; updateZoomText(); renderAllPages(); } }
+
+        function setupPageObserver() {
+            if(observer) observer.disconnect();
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) document.getElementById('current-page').textContent = entry.target.getAttribute('data-page-num'); });
+            }, { root: scrollArea, rootMargin: '-40% 0px -40% 0px' });
+            document.querySelectorAll('.pdf-page-wrapper').forEach(page => observer.observe(page));
+        }
+
+        async function renderAllPages() {
+            renderContainer.innerHTML = ''; document.getElementById('pdf-loader').classList.remove('hidden');
+            for(let num = 1; num <= pdfDoc.numPages; num++) {
+                const wrapper = document.createElement('div'); wrapper.className = 'pdf-page-wrapper'; wrapper.setAttribute('data-page-num', num);
+                const canvas = document.createElement('canvas'); wrapper.appendChild(canvas); renderContainer.appendChild(wrapper);
+                try {
+                    const page = await pdfDoc.getPage(num); const viewport = page.getViewport({ scale: currentScale }); 
+                    canvas.width = viewport.width; canvas.height = viewport.height; wrapper.style.width = `${viewport.width}px`; wrapper.style.height = `${viewport.height}px`;
+                    await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+                } catch (e) {}
+            }
+            document.getElementById('pdf-loader').classList.add('hidden'); setupPageObserver();
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                document.getElementById('pdf-title').textContent = file.name; document.getElementById('pdf-title').classList.remove('hidden');
+                const fileReader = new FileReader();
+                fileReader.onload = function() {
+                    document.getElementById('pdf-empty-state').classList.add('hidden'); document.getElementById('pdf-page-indicator').classList.remove('hidden');
+                    document.getElementById('zoom-controls').classList.remove('hidden'); document.getElementById('zoom-controls').classList.add('flex'); updateZoomText();
+                    pdfjsLib.getDocument(new Uint8Array(this.result)).promise.then(pdfDoc_ => {
+                        pdfDoc = pdfDoc_; document.getElementById('total-pages').textContent = pdfDoc.numPages; document.getElementById('current-page').textContent = '1'; renderAllPages();
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
+            }
+        });
+    </script>
+</body>
+</html>
